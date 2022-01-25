@@ -26,11 +26,11 @@ namespace NvuQuizSystem.Services.QuizVariantsCreatorService
 
         public List<string> CreateVariants(int variantsNumber, int variantQuestionsCount)
         {
-            if (variantQuestionsCount < Quiz.QuestionsCount)
+            if (variantQuestionsCount > Quiz.QuestionsCount)
             {
-                throw new ArgumentException($"Number of variant's questions must be more or equal than {Quiz.QuestionsCount}");
+                throw new ArgumentException($"Number of variant's questions must be less or equal than {Quiz.QuestionsCount}");
             }
-            
+
             List<string> variants = new List<string>();
 
 
@@ -42,6 +42,7 @@ namespace NvuQuizSystem.Services.QuizVariantsCreatorService
                 StringBuilder sb = new StringBuilder();
                 List<char> currentVariantCorrectAnswers = new List<char>();
                 sb.AppendLine($"Вариант {i}");
+                sb.AppendLine("звание, три имена ...............................................................");
 
                 for (int j = 1; j <= variantQuestionsCount; j++)
                 {
@@ -60,7 +61,7 @@ namespace NvuQuizSystem.Services.QuizVariantsCreatorService
                     List<string> usedAnswers = new List<string>();
                     for (int k = 0; k < question.AnswersCount; k++)
                     {
-                        
+
                         Answer answer = answers[random.Next(0, question.AnswersCount)];
 
                         while (usedAnswers.Any(a => a == answer.Id))

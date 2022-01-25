@@ -4,6 +4,7 @@ using NvuQuizSystem.Models.Questions;
 using NvuQuizSystem.Models.Quizes;
 using NvuQuizSystem.Services.QuizCreatorService;
 using NvuQuizSystem.Services.QuizVariantsCreatorService;
+using NvuQuizSystem.Services.QuizVariantsOutputService;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,26 +19,24 @@ namespace NvuQuizSystem
             IQuizCreator quizCreator = new TxtQuizCreator("input.txt");
             Quiz quiz;
             QuizVariantsCreator creator;
-            try
-            {
-                quiz = await quizCreator.CreateQuizAsync("MyQuiz");
-                creator = new QuizVariantsCreator(quiz);
-                List<string> variants = creator.CreateVariants(5, 3);
+            //try
+            //{
+            //}
+            //catch (Exception ex)
+            //{
 
-                //Console.WriteLine(quiz.ToString());
+            //    Console.WriteLine(ex.Message);
+            //}
+            quiz = await quizCreator.CreateQuizAsync("Тест ЯХБЗ");
+            creator = new QuizVariantsCreator(quiz);
+            List<string> variants = creator.CreateVariants(90, 15);
 
-                for (int i = 0; i < variants.Count; i++)
-                {
-                    Console.WriteLine(variants[i]);
-                    Console.WriteLine(string.Join(", ", creator.VariantsCorrectAnswers[i]));
-                }
-            }
-            catch (Exception ex)
-            {
+            //Console.WriteLine(quiz.ToString());
 
-                Console.WriteLine(ex.Message);
-            }
-            
+            await QuizVariantsOutputTxt.VariantsOutputTxtAsync("Output.txt", variants, creator.VariantsCorrectAnswers);
+
+
         }
+
     }
 }
