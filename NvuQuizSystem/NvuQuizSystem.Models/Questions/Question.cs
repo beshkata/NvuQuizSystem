@@ -10,11 +10,11 @@ namespace NvuQuizSystem.Models.Questions
 {
     public class Question
     {
-        private readonly List<Answer> answers;
+        //private readonly List<Answer> answers;
 
         public Question(string body)
         {
-            answers = new List<Answer>();
+            Answers = new List<Answer>();
             Id = Guid.NewGuid().ToString();
             Body = body;
         }
@@ -23,20 +23,22 @@ namespace NvuQuizSystem.Models.Questions
 
         public string Body { get; set; }
 
-        public int AnswersCount => answers.Count();
+        public int AnswersCount => Answers.Count();
 
-        public IReadOnlyCollection<Answer> Answers => answers.AsReadOnly();
+        //public IReadOnlyCollection<Answer> Answers => answers.AsReadOnly();
+
+        public ICollection<Answer> Answers { get; set; }
 
         public bool AddAnswer(Answer answer)
         {
             Guard.AgainstNull(answer);
-            answers.Add(answer);
+            Answers.Add(answer);
             return true;
         }
 
         public bool IsValid()
         {
-            if (answers.Any(a => a.IsCorrect) && answers.Any(a => a.IsCorrect == false))
+            if (Answers.Any(a => a.IsCorrect) && Answers.Any(a => a.IsCorrect == false))
             {
                 return true;
             }
@@ -49,7 +51,7 @@ namespace NvuQuizSystem.Models.Questions
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendLine(Body);
-            foreach (var answer in answers)
+            foreach (var answer in Answers)
             {
                 stringBuilder.AppendLine(answer.ToString());
             }

@@ -10,11 +10,11 @@ namespace NvuQuizSystem.Models.Quizes
 {
     public class Quiz
     {
-        private readonly List<Question> questions;
+        //private readonly List<Question> questions;
 
         public Quiz(string name)
         {
-            questions = new List<Question>();
+            Questions = new List<Question>();
             Id = Guid.NewGuid().ToString();
             Name = name;
         }
@@ -23,23 +23,25 @@ namespace NvuQuizSystem.Models.Quizes
 
         public string Name { get; set; }
 
-        public IReadOnlyCollection<Question> Questions => questions.AsReadOnly();
+        //public IReadOnlyCollection<Question> Questions => questions.AsReadOnly();
 
-        public int QuestionsCount => questions.Count();
+        public int QuestionsCount => Questions.Count();
+
+        public ICollection<Question> Questions { get; set; }
 
         public bool AddQuestion(Question question)
         {
             Guard.AgainstNull(question);
-            questions.Add(question);
+            Questions.Add(question);
             return true;
         }
 
         public bool DeleteQuestion(Question question)
         {
             Guard.AgainstNull(question);
-            if (questions.Contains(question))
+            if (Questions.Contains(question))
             {
-                questions.Remove(question);
+                Questions.Remove(question);
                 return true;
             }
             else
@@ -51,14 +53,14 @@ namespace NvuQuizSystem.Models.Quizes
         public bool DeleteQuestion(string questionId)
         {
             Guard.AgainstNull(questionId);
-            Question question = questions.FirstOrDefault(q => q.Id == questionId);
+            Question question = Questions.FirstOrDefault(q => q.Id == questionId);
 
             if (question == null)
             {
                 throw new ArgumentException($"There is no question with id {questionId} in quiz {this.Name}.");
             }
 
-            questions.Remove(question);
+            Questions.Remove(question);
             return true;
         }
 
@@ -67,7 +69,7 @@ namespace NvuQuizSystem.Models.Quizes
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(Name);
 
-            foreach (var question in questions)
+            foreach (var question in Questions)
             {
                 sb.AppendLine(question.ToString());
             }

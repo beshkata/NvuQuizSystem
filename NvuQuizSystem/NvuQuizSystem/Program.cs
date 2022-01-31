@@ -2,7 +2,9 @@
 using NvuQuizSystem.Models.Answers;
 using NvuQuizSystem.Models.Questions;
 using NvuQuizSystem.Models.Quizes;
+using NvuQuizSystem.Services.OpenQuizService;
 using NvuQuizSystem.Services.QuizCreatorService;
+using NvuQuizSystem.Services.QuizSaveService;
 using NvuQuizSystem.Services.QuizVariantsCreatorService;
 using NvuQuizSystem.Services.QuizVariantsOutputService;
 using System;
@@ -16,25 +18,23 @@ namespace NvuQuizSystem
 
         static async Task Main()
         {
-            IQuizCreator quizCreator = new TxtQuizCreator("input.txt");
+            //IQuizCreator quizCreator = new TxtQuizCreator("input.txt");
             Quiz quiz;
             QuizVariantsCreator creator;
-            //try
-            //{
-            //}
-            //catch (Exception ex)
-            //{
+            //quiz = await quizCreator.CreateQuizAsync("Тест ЯХБЗ");
 
-            //    Console.WriteLine(ex.Message);
-            //}
-            quiz = await quizCreator.CreateQuizAsync("Тест ЯХБЗ");
+
+
+            //ISaveQuiz saveQuiz = new JsonSaveQuiz();
+            //await saveQuiz.SaveAsync(quiz);
+            IOpenQuiz openQuiz = new JsonOpenQuiz();
+            quiz = await openQuiz.Open("Тест ЯХБЗ.json");
             creator = new QuizVariantsCreator(quiz);
             List<string> variants = creator.CreateVariants(90, 15);
+            QuizVariantsOutputTxt quizVariantsOutputTxt = new QuizVariantsOutputTxt();
+            await quizVariantsOutputTxt.VariantsOutputTxtAsync($"{quiz.Name}Variants.txt", variants, creator.VariantsCorrectAnswers);
 
             //Console.WriteLine(quiz.ToString());
-
-            await QuizVariantsOutputTxt.VariantsOutputTxtAsync("Output.txt", variants, creator.VariantsCorrectAnswers);
-
 
         }
 

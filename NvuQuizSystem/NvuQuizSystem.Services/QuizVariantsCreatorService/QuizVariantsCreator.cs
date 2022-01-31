@@ -75,7 +75,7 @@ namespace NvuQuizSystem.Services.QuizVariantsCreatorService
                         }
                         usedAnswers.Add(answer.Id);
 
-                        sb.AppendLine($"{(char)(97 + k)}. {answer.Body} {answer.IsCorrect}");
+                        sb.AppendLine($"{(char)(97 + k)}. {answer.Body}");
                     }
 
                 }

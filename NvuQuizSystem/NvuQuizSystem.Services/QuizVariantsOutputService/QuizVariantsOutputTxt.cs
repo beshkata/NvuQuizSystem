@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace NvuQuizSystem.Services.QuizVariantsOutputService
 {
-    public class QuizVariantsOutputTxt
+    public class QuizVariantsOutputTxt : IQuizVariantsOutput
     {
-        public static async Task VariantsOutputTxtAsync(string path, 
+        public async Task VariantsOutputTxtAsync(string path, 
             List<string> variants, 
             List<List<char>> VariantsCorrectAnswers)
         {
