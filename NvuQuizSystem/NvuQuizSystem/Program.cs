@@ -18,19 +18,19 @@ namespace NvuQuizSystem
 
         static async Task Main()
         {
-            //IQuizCreator quizCreator = new TxtQuizCreator("input.txt");
+            IQuizCreator quizCreator = new TxtQuizCreator("input.txt");
             Quiz quiz;
             QuizVariantsCreator creator;
-            //quiz = await quizCreator.CreateQuizAsync("Тест ЯХБЗ");
+            //quiz = await quizCreator.CreateQuizAsync("Тест НВП");
 
 
 
             //ISaveQuiz saveQuiz = new JsonSaveQuiz();
             //await saveQuiz.SaveAsync(quiz);
             IOpenQuiz openQuiz = new JsonOpenQuiz();
-            quiz = await openQuiz.Open("Тест ЯХБЗ.json");
+            quiz = await openQuiz.Open("Тест НВП.json");
             creator = new QuizVariantsCreator(quiz);
-            List<string> variants = creator.CreateVariants(90, 15);
+            List<string> variants = creator.CreateVariants(90, 20);
             QuizVariantsOutputTxt quizVariantsOutputTxt = new QuizVariantsOutputTxt();
             await quizVariantsOutputTxt.VariantsOutputTxtAsync($"{quiz.Name}Variants.txt", variants, creator.VariantsCorrectAnswers);
 

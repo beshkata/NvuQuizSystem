@@ -34,17 +34,31 @@ namespace NvuQuizSystem.Services.QuizCreatorService
             {
                 while (line != null)
                 {
+                    if (string.IsNullOrWhiteSpace(line))
+                    {
+                        continue;
+                    }
+                    line.Trim();
                     if (line.StartsWith("???"))
                     {
-                        question = new Question(line.Remove(0, 3));
+                        string questionBody = line.Remove(0, 3);
+                        question = new Question(questionBody.Trim());
 
                         line = await reader.ReadLineAsync();
+                        line.Trim();
 
                         while (line.StartsWith("???") == false)
                         {
+                            line.Trim();
+                            if (string.IsNullOrWhiteSpace(line))
+                            {
+                                continue;
+                            }
+
                             if (line.StartsWith("!!!"))
                             {
-                                answer = new Answer(line.Remove(0, 3), true);
+                                string answerBody = line.Remove(0, 3);
+                                answer = new Answer(answerBody.Trim(), true);
                             }
                             else
                             {
@@ -52,11 +66,11 @@ namespace NvuQuizSystem.Services.QuizCreatorService
                             }
                             question.AddAnswer(answer);
                             line = await reader.ReadLineAsync();
-
                             if (line == null)
                             {
                                 break;
                             }
+                            line.Trim();
                         }
                         if (question.IsValid())
                         {

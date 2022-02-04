@@ -77,7 +77,7 @@ namespace NvuQuizSystem.Services.QuizVariantsCreatorService
 
                         sb.AppendLine($"{(char)(97 + k)}. {answer.Body}");
                     }
-
+                    sb.AppendLine(new string('-', 20));
                 }
 
                 variants.Add(sb.ToString());
